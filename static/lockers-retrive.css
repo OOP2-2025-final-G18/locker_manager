@@ -1,0 +1,44 @@
+/* 基本スタイルとレイアウトの省略（以前の回答を参照） */
+
+/* --- lockers-retrive 特有のスタイル --- */
+
+/* 純粋な td (取り出せないロッカー: 2番、9番) を灰色で塗る [cite: 163] */
+.lockers-retrive .locker-unit {
+    background-color: #D3D3D3; /* lightgray */
+    border-color: #808080;
+    color: #555;
+}
+
+/* td [data-target] (取り出せるロッカー) を青色で塗る  */
+.lockers-retrive .locker-unit[data-target] {
+    background-color: #ADD8E6; /* lightblue */
+    border-color: #007BFF;
+    color: #000;
+}
+
+
+/* 取り出し中メッセージのスタイル */
+#status-message-retrieve {
+    color: #FF8C00; 
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* 処理中のロッカーのスタイル (例: 点滅で強調) */
+.locker-unit.processing {
+    background-color: #FFA07A !important; /* light salmon: 処理中であることを示す色 */
+    border-color: #FF4500 !important;
+    animation: flash 1s infinite alternate; 
+}
+
+/* ロッカー配置用の共通グリッド設定 (以前の回答を参照) */
+.locker-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr) 0.5fr repeat(2, 1fr);
+    grid-template-rows: repeat(2, 70px);
+    gap: 8px;
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+/* ... @keyframes flash やその他のスタイルは省略 ... */
