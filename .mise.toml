@@ -1,0 +1,7 @@
+[tools]
+python = "3.13.7"
+uv = "0.8"
+"pipx:ruff" = "latest"
+
+[tasks.dev]
+run = "uv run python ./app.py"

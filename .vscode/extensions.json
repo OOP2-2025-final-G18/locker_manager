@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "samuelcolvin.jinjahtml",
+    "esbenp.prettier-vscode",
+    "ms-python.vscode-pylance"
+  ]
+}

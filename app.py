@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+
 from models import initialize_database
 from routes import blueprints
 
@@ -11,10 +12,12 @@ initialize_database()
 for blueprint in blueprints:
     app.register_blueprint(blueprint)
 
-# ホームページのルート
-@app.route('/')
-def index():
-    return render_template('index.html')
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+# ホームページのルート
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080, debug=True)
