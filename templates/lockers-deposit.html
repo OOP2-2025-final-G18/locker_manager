@@ -7,30 +7,81 @@
 </head>
 <body>
 
-<div class="container">
+<!-- ======== 1つ目の画面 ======== -->
+<div class="container screen1">
 
     <div class="path">/lockers/deposit</div>
 
-    <div class="back">&larr;　預け入れ</div>
+    <div class="back">&larr; 預け入れ</div>
 
     <div class="locker-grid">
 
-        {% for i in range(1, 13) %}
-            <div class="locker {% if i in occupied %}occupied{% endif %}">
-                {{ i }}
-            </div>
-        {% endfor %}
-
-    </div>
+       <table class="locker-table">
+        <tr>
+            <td>1</td>
+            <td data-target>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td class="long">11</td>
+            <td class="long">12</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+            <td data-target>9</td>
+            <td>10</td>
+            
+        </tr>
+    </table>
 
     <form method="POST" class="form-area">
         <label>暗証番号</label>
         <input type="password" name="pin">
-
         <button type="submit">預け入れ開始</button>
     </form>
 
-    <div class="note">暗証番号を決め、入力してください。</div>
+    <div class="note note-blue">暗証番号を決め、入力してください。</div>
+
+</div>
+
+
+
+<!-- ======== 2つ目の画面 ======== -->
+<div class="lockers-deposit screen2">
+
+    <div class="path">/lockers/deposit</div>
+
+    <div class="back">&larr; 預け入れ</div>
+
+    <table class="locker-table">
+        <tr>
+            <td>1</td>
+            <td data-target>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td class="long">11</td>
+            <td class="long">12</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+            <td data-target>9</td>
+            <td>10</td>
+            
+        </tr>
+    </table>
+
+    <form method="post" class="form-area form-gray">
+        <label>暗証番号</label>
+        <input type="password" name="pin"/>
+        <button type="submit">預け入れ中...</button>
+    </form>
+
+    <div class="note note-yellow">暗証番号を決め、入力してください。</div>
 
 </div>
 
