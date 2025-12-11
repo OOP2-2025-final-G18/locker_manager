@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ロッカー - 取り出し完了</title>
+    <link rel="stylesheet" href="/static/lockers-retrive.css"> 
+</head>
+<body>
+    <header>
+        <h1>← 取り出し</h1>
+    </header>
+
+    <main>
+        <div class="locker-grid lockers-retrive">
+            <div class="locker-unit retrievable processing" data-target data-id="1">1</div>
+            <div class="locker-unit" data-id="2">2</div> 
+            <div class="locker-unit retrievable" data-target data-id="3">3</div>
+            <div class="locker-unit retrievable" data-target data-id="4">4</div>
+            <div class="locker-unit retrievable" data-target data-id="5">5</div>
+            
+            <div class="locker-unit retrievable" data-target data-id="6">6</div>
+            <div class="locker-unit retrievable" data-target data-id="7">7</div>
+            <div class="locker-unit retrievable" data-target data-id="8">8</div>
+            <div class="locker-unit" data-id="9">9</div> 
+            <div class="locker-unit retrievable" data-target data-id="10">10</div>
+
+            <div class="locker-unit right-col retrievable" data-target data-id="11">11</div>
+            <div class="locker-unit right-col retrievable" data-target data-id="12">12</div>
+        </div>
+        
+        <div id="retrieve-done-status">
+            <label for="passcode_done">暗証番号</label>
+            <input type="password" id="passcode_done" value="****" readonly>
+            
+            <p id="status-message-retrieve">取り出し中･･･</p> 
+        </div>
+    </main>
+</body>
+</html>
