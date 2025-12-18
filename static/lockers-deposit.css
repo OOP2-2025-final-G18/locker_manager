@@ -16,7 +16,7 @@
             text-align: center;
             font-size: 18px;
             font-weight: bold;
-            background-color: #e6f0ff; /* 使用不可：薄い青 */
+            background-color: #d6e6ff; /* 使用不可：グレーではなく青に変更 */
         }
 
         td[data-target] {
