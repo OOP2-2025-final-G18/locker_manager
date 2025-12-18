@@ -1,0 +1,14 @@
+.locker-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr) 20px 1fr;
+    grid-template-rows: repeat(2, 80px);
+    gap: 10px;
+}
+/* 預け入れで「選べる」ロッカー */
+.vacant { background-color: #90EE90; cursor: pointer; border: 2px solid #333; }
+/* 取り出しで「選べる」ロッカー */
+.occupied { background-color: #ADD8E6; cursor: pointer; border: 2px solid #333; }
+/* 選べないロッカー */
+.disabled { background-color: #D3D3D3; cursor: not-allowed; border: 2px solid #999; color: #999; }
+
+.selected { border: 5px solid black !important; }

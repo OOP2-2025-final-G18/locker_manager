@@ -2,126 +2,80 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>預け入れ</title>
-    <link rel="stylesheet" href="/static/lockers-deposit.css">
+    <title>ロッカー - 預け入れ</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+    <header>
+        <h1>← 預け入れ</h1>
+        <div id="stats">選択中のロッカー: <span id="display-id">未選択</span></div>
+    </header>
 
-<!-- ======================
-     1枚目
-====================== -->
-<div class="lockers-deposit" id="deposit-page">
-    <div class="header">← 預け入れ</div>
+    <main class="app-container">
+        <div class="locker-grid">
+            {% for id, detail in info.items() %}
+                {# 判定: operationsに ID があり、かつ retrieve_at が None なら「使用中」 #}
+                {% set is_occupied = id in ops and ops[id].retrieve_at is none %}
+                
+                <div class="locker-unit id-{{ id }} {{ 'occupied' if is_occupied else 'vacant' }}"
+                     style="grid-column: {{ detail.col }}; grid-row: {{ detail.row }};"
+                     {# 空いている(vacant)時だけクリックイベントを有効にする #}
+                     {% if not is_occupied %}
+                        onclick="selectLocker({{ id }})"
+                     {% else %}
+                        style="cursor: not-allowed; opacity: 0.6;"
+                     {% endif %}>
+                    {{ id }}
+                </div>
+            {% endfor %}
+        </div>
 
-    <table class="lockers">
-        <tr>
-            <td>1</td>
-            <td data-target>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td rowspan="2">11</td>
-            <td rowspan="2">12</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>7</td>
-            <td>8</td>
-            <td data-target>9</td>
-            <td>10</td>
-        </tr>
-    </table>
+        <section id="form-area" style="margin-top: 20px;">
+            {% if not pin %}
+                <form action="/lockers/deposit" method="POST">
+                    {# ここに ID が入らないと預け入れができません #}
+                    <input type="hidden" name="locker_id" id="selected_id_input">
+                    
+                    <div style="margin-bottom: 10px;">
+                        <label>設定する4桁の暗証番号</label><br>
+                        <input type="password" name="pin" pattern="\d{4}" maxlength="4" placeholder="4桁数字" required 
+                               style="font-size: 1.5rem; width: 200px; text-align: center;">
+                    </div>
+                    
+                    <button type="submit" id="submit-btn" disabled 
+                            style="padding: 10px 20px; font-size: 1.1rem;">
+                        預け入れを確定する
+                    </button>
+                </form>
+            {% else %}
+                <div class="done-message" style="background: #e7ffe7; padding: 20px; border: 2px solid green;">
+                    <h3>預け入れ完了</h3>
+                    <p>ロッカー番号: {{ target_id }} 番</p>
+                    <p>設定した暗証番号: {{ pin }}</p>
+                    <button onclick="location.href='/'">トップへ戻る</button>
+                </div>
+            {% endif %}
+        </section>
+    </main>
 
-    <div class="pin-area">
-        <label>
-            暗証番号
-            <input id="pin-input" type="text" inputmode="numeric"
-                   pattern="\d{4}" maxlength="4" placeholder="4桁の数字">
-        </label>
-
-        <button class="deposit-btn" id="deposit-btn">
-            預け入れ開始
-        </button>
-    </div>
-
-    <div class="message info" id="error-message">
-    ロッカーを1つ選択し、暗証番号を4桁で入力してください。
-</div>
-</div>
-
-<!-- ======================
-     2枚目
-====================== -->
-<div class="lockers-deposit done" id="deposit-done-page" style="display:none;">
-    <div class="header">← 預け入れ</div>
-
-    <table class="lockers" id="done-lockers">
-        <tr>
-            <td>1</td>
-            <td data-target>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td rowspan="2">11</td>
-            <td rowspan="2">12</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>7</td>
-            <td>8</td>
-            <td data-target>9</td>
-            <td>10</td>
-        </tr>
-    </table>
-
-    <div class="pin-area">
-        <button class="deposit-btn disabled">預け入れ中…</button>
-    </div>
-
-    <div class="message success">
-        預けました。扉が閉まるまでお待ちください。
-    </div>
-</div>
-
-<script>
-let selectedLocker = null;
-
-// 緑ボックスのみクリック可能
-document.querySelectorAll('#deposit-page td[data-target]').forEach(td => {
-    td.addEventListener('click', () => {
-        // 選択解除
-        document.querySelectorAll('#deposit-page td.selected')
-            .forEach(e => e.classList.remove('selected'));
-
-        // 選択
-        td.classList.add('selected');
-        selectedLocker = td.textContent;
-    });
-});
-
-document.getElementById('deposit-btn').addEventListener('click', () => {
-    const pin = document.getElementById('pin-input').value;
-    const error = document.getElementById('error-message');
-
-    if (!selectedLocker || !/^\d{4}$/.test(pin)) {
-        error.style.display = 'block';
-        return;
-    }
-
-    error.style.display = 'none';
-
-    // 画面切り替え
-    document.getElementById('deposit-page').style.display = 'none';
-    document.getElementById('deposit-done-page').style.display = 'block';
-
-    // 選択ロッカーを赤に変更
-    document.querySelectorAll('#done-lockers td').forEach(td => {
-        if (td.textContent === selectedLocker) {
-            td.classList.add('occupied');
+    <script>
+        function selectLocker(id) {
+            // 全体の選択スタイルを解除
+            document.querySelectorAll('.locker-unit').forEach(el => el.classList.remove('selected'));
+            
+            // 選択したロッカーを強調
+            const target = document.querySelector('.id-' + id);
+            target.classList.add('selected');
+            
+            // フォームの隠し入力に ID をセット
+            document.getElementById('selected_id_input').value = id;
+            
+            // 画面上の表示を更新
+            document.getElementById('display-id').innerText = id + " 番";
+            
+            // ボタンを有効化
+            document.getElementById('submit-btn').disabled = false;
         }
-    });
-});
-</script>
-
+    </script>
 </body>
 </html>
