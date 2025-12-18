@@ -8,7 +8,7 @@
 <body>
 
 <!-- ======================
-     1枚目：/lockers/deposit
+     1枚目
 ====================== -->
 <div class="lockers-deposit" id="deposit-page">
     <div class="header">← 預け入れ</div>
@@ -35,14 +35,8 @@
     <div class="pin-area">
         <label>
             暗証番号
-            <input
-                id="pin-input"
-                type="text"
-                inputmode="numeric"
-                pattern="\d{4}"
-                maxlength="4"
-                placeholder="4桁の数字"
-            >
+            <input id="pin-input" type="text" inputmode="numeric"
+                   pattern="\d{4}" maxlength="4" placeholder="4桁の数字">
         </label>
 
         <button class="deposit-btn" id="deposit-btn">
@@ -50,18 +44,18 @@
         </button>
     </div>
 
-    <div class="message info" id="error-message" style="display:none;">
-        暗証番号は4桁の数字で入力してください。
-    </div>
+    <div class="message info" id="error-message">
+    ロッカーを1つ選択し、暗証番号を4桁で入力してください。
+</div>
 </div>
 
 <!-- ======================
-     2枚目：/lockers/deposit/done
+     2枚目
 ====================== -->
 <div class="lockers-deposit done" id="deposit-done-page" style="display:none;">
     <div class="header">← 預け入れ</div>
 
-    <table class="lockers">
+    <table class="lockers" id="done-lockers">
         <tr>
             <td>1</td>
             <td data-target>2</td>
@@ -81,14 +75,7 @@
     </table>
 
     <div class="pin-area">
-        <label>
-            暗証番号
-            <input type="text" disabled>
-        </label>
-
-        <button class="deposit-btn disabled">
-            預け入れ中…
-        </button>
+        <button class="deposit-btn disabled">預け入れ中…</button>
     </div>
 
     <div class="message success">
@@ -96,24 +83,43 @@
     </div>
 </div>
 
-<!-- ======================
-     JavaScript
-====================== -->
 <script>
-document.getElementById("deposit-btn").addEventListener("click", () => {
-    const pin = document.getElementById("pin-input").value;
-    const error = document.getElementById("error-message");
+let selectedLocker = null;
 
-    if (!/^\d{4}$/.test(pin)) {
-        error.style.display = "block";
+// 緑ボックスのみクリック可能
+document.querySelectorAll('#deposit-page td[data-target]').forEach(td => {
+    td.addEventListener('click', () => {
+        // 選択解除
+        document.querySelectorAll('#deposit-page td.selected')
+            .forEach(e => e.classList.remove('selected'));
+
+        // 選択
+        td.classList.add('selected');
+        selectedLocker = td.textContent;
+    });
+});
+
+document.getElementById('deposit-btn').addEventListener('click', () => {
+    const pin = document.getElementById('pin-input').value;
+    const error = document.getElementById('error-message');
+
+    if (!selectedLocker || !/^\d{4}$/.test(pin)) {
+        error.style.display = 'block';
         return;
     }
 
-    error.style.display = "none";
+    error.style.display = 'none';
 
     // 画面切り替え
-    document.getElementById("deposit-page").style.display = "none";
-    document.getElementById("deposit-done-page").style.display = "block";
+    document.getElementById('deposit-page').style.display = 'none';
+    document.getElementById('deposit-done-page').style.display = 'block';
+
+    // 選択ロッカーを赤に変更
+    document.querySelectorAll('#done-lockers td').forEach(td => {
+        if (td.textContent === selectedLocker) {
+            td.classList.add('occupied');
+        }
+    });
 });
 </script>
 
