@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ロッカー - 取り出し</title>
+    <link rel="stylesheet" href="/static/lockers-retrive.css">
+</head>
+
+<body>
+    <header>
+        <h1>← 取り出し</h1>
+    </header>
+
+    <main>
+        <div class="locker-grid lockers-retrive">
+            <div class="locker-unit retrievable" data-target data-id="1">1</div>
+            <div class="locker-unit" data-id="2">2</div>
+            <div class="locker-unit retrievable" data-target data-id="3">3</div>
+            <div class="locker-unit retrievable" data-target data-id="4">4</div>
+            <div class="locker-unit retrievable" data-target data-id="5">5</div>
+
+            <div class="locker-unit retrievable" data-target data-id="6">6</div>
+            <div class="locker-unit retrievable" data-target data-id="7">7</div>
+            <div class="locker-unit retrievable" data-target data-id="8">8</div>
+            <div class="locker-unit" data-id="9">9</div>
+            <div class="locker-unit retrievable" data-target data-id="10">10</div>
+
+            <div class="locker-unit right-col retrievable" data-target data-id="11">11</div>
+            <div class="locker-unit right-col retrievable" data-target data-id="12">12</div>
+        </div>
+
+        <form id="retrieve-form" action="/lockers/retrieve/done" method="POST">
+            <label for="passcode">暗証番号</label>
+            <input type="password" id="passcode" name="passcode" required pattern="\d{4}" maxlength="4"
+                placeholder="暗証番号を入力 (4桁)" title="暗証番号は数字4桁で入力してください"> <button type="submit"
+                id="retrieve-start">取り出し開始</button>
+        </form>
+    </main>
+</body>
+
+</html>
