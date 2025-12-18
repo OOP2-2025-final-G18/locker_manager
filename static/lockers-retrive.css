@@ -1,71 +1,64 @@
 /* レイアウト設定 */
 .locker-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr) 20px repeat(2, 1fr); /* 5列 + 隙間 + 2列 */
+    /* 5列(左) + 隙間(20px) + 1列(右) の構成 */
+    grid-template-columns: repeat(5, 1fr) 20px 1fr;
     grid-template-rows: repeat(2, 80px);
     gap: 10px;
     max-width: 600px;
     margin: 20px 0;
 }
 
-/* ロッカーの基本（2, 9番含むデフォルトは灰色） */
+/* --- ロッカーの位置指定（スクリーンショット通り） --- */
+.locker-unit[data-id="1"] { grid-column: 1; grid-row: 1; }
+.locker-unit[data-id="2"] { grid-column: 2; grid-row: 1; }
+.locker-unit[data-id="3"] { grid-column: 3; grid-row: 1; }
+.locker-unit[data-id="4"] { grid-column: 4; grid-row: 1; }
+.locker-unit[data-id="5"] { grid-column: 5; grid-row: 1; }
+
+.locker-unit[data-id="6"] { grid-column: 1; grid-row: 2; }
+.locker-unit[data-id="7"] { grid-column: 2; grid-row: 2; }
+.locker-unit[data-id="8"] { grid-column: 3; grid-row: 2; }
+.locker-unit[data-id="9"] { grid-column: 4; grid-row: 2; }
+.locker-unit[data-id="10"] { grid-column: 5; grid-row: 2; }
+
+/* 11, 12番を右端（7列目）にたてに配置 */
+.locker-unit[data-id="11"] { grid-column: 7; grid-row: 1; }
+.locker-unit[data-id="12"] { grid-column: 7; grid-row: 2; }
+
+/* --- 色の設定（前回＝預け入れ画面と同じ色のルール） --- */
+
+/* 基本：取り出せるロッカー（2, 9以外）を「青色」に設定 */
 .locker-unit {
-    background-color: #D3D3D3;
+    background-color: #ADD8E6; /* Light Blue */
     border: 2px solid #333;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.2s;
 }
 
-/* 取り出せるロッカー（data-targetがあるもの）を青色にする */
-.locker-unit[data-target] {
-    background-color: #ADD8E6; /* Light Blue */
-    border-color: #007BFF;
+/* 2番と9番（data-targetがないもの）を「緑色」に設定 */
+.locker-unit:not([data-target]) {
+    background-color: #90EE90; /* Light Green */
+    border-color: #2E8B57;
 }
 
-/* 右側2列の配置調整 */
-.right-col[data-id="11"] { grid-column: 7; grid-row: 1; }
-.right-col[data-id="12"] { grid-column: 8; grid-row: 1; }
-
-/* 処理中のアニメーション（点滅） */
+/* 処理中のアニメーション */
 .locker-unit.processing {
     background-color: #FFA07A !important; /* オレンジ */
-    border-color: #FF4500 !important;
     animation: flash 0.8s infinite alternate;
 }
+@keyframes flash { from { opacity: 1; } to { opacity: 0.5; } }
 
-@keyframes flash {
-    from { opacity: 1; }
-    to { opacity: 0.5; }
-}
+/* 画面切り替え用 */
+#done-section { display: none; }
+.is-done #input-section { display: none; }
+.is-done #done-section { display: block; }
 
-/* フォームの見た目 */
-#retrieve-form, #retrieve-done-status {
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    gap: 10px;
-}
-
-input {
-    padding: 10px;
-    font-size: 18px;
-    letter-spacing: 5px;
-}
-
-button {
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-#status-message-retrieve {
-    color: #FF8C00;
-    font-weight: bold;
-    text-align: center;
-}
+/* 入力フォーム */
+#retrieve-form, #retrieve-done-status { display: flex; flex-direction: column; width: 250px; gap: 10px; }
+input { padding: 10px; font-size: 18px; letter-spacing: 5px; }
+button { padding: 10px; background-color: #007BFF; color: white; border: none; cursor: pointer; font-weight: bold; }
+#status-message-retrieve { color: #FF8C00; font-weight: bold; text-align: center; }
