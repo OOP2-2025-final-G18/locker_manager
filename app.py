@@ -16,34 +16,18 @@ def index():
     '''
 
 
-# =========================
-# ロッカー：預け入れ
-# =========================
-@app.route('/lockers/deposit', methods=['GET', 'POST'])
+@app.route('/lockers/deposit')
 def lockers_deposit():
-    if request.method == 'POST':
-        pin = request.form.get('pin')
-        print('【預け入れ】暗証番号:', pin)
-
-        # 2画面目を表示
-        return render_template(
-            'lockers-deposit.html',
-            show_screen='screen2'
-        )
-
-    # 1画面目を表示
-    return render_template(
-        'lockers-deposit.html',
-        show_screen='screen1'
-    )
+   
+    return render_template('lockers-deposit.html')
 
 
 # =========================
-# ロッカー：取り出し
+# 取り出し（変更なし）
 # =========================
 @app.route('/lockers/retrieve')
 def lockers_retrieve():
-    return render_template('lockers-retrive.html')
+    return render_template('lockers-retrieve.html')
 
 
 if __name__ == '__main__':
