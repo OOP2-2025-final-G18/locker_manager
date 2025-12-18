@@ -8,12 +8,10 @@
 <body>
 
 <!-- ======================
-     /lockers/deposit　　　　　１枚目の画像
+     1枚目：/lockers/deposit
 ====================== -->
-<div class="lockers-deposit">
-    <div class="header">
-        ← 預け入れ
-    </div>
+<div class="lockers-deposit" id="deposit-page">
+    <div class="header">← 預け入れ</div>
 
     <table class="lockers">
         <tr>
@@ -38,6 +36,7 @@
         <label>
             暗証番号
             <input
+                id="pin-input"
                 type="text"
                 inputmode="numeric"
                 pattern="\d{4}"
@@ -46,23 +45,21 @@
             >
         </label>
 
-        <button class="deposit-btn">
+        <button class="deposit-btn" id="deposit-btn">
             預け入れ開始
         </button>
     </div>
 
-    <div class="message info">
-        暗証番号を入力してください。
+    <div class="message info" id="error-message" style="display:none;">
+        暗証番号は4桁の数字で入力してください。
     </div>
 </div>
 
 <!-- ======================
-     /lockers/deposit/done　　　ここから２枚目の画像
+     2枚目：/lockers/deposit/done
 ====================== -->
-<div class="lockers-deposit done">
-    <div class="header">
-        ← 預け入れ
-    </div>
+<div class="lockers-deposit done" id="deposit-done-page" style="display:none;">
+    <div class="header">← 預け入れ</div>
 
     <table class="lockers">
         <tr>
@@ -86,13 +83,7 @@
     <div class="pin-area">
         <label>
             暗証番号
-            <input
-                type="text"
-                inputmode="numeric"
-                pattern="\d{4}"
-                maxlength="4"
-                placeholder="4桁の数字"
-            >
+            <input type="text" disabled>
         </label>
 
         <button class="deposit-btn disabled">
@@ -104,6 +95,27 @@
         預けました。扉が閉まるまでお待ちください。
     </div>
 </div>
+
+<!-- ======================
+     JavaScript
+====================== -->
+<script>
+document.getElementById("deposit-btn").addEventListener("click", () => {
+    const pin = document.getElementById("pin-input").value;
+    const error = document.getElementById("error-message");
+
+    if (!/^\d{4}$/.test(pin)) {
+        error.style.display = "block";
+        return;
+    }
+
+    error.style.display = "none";
+
+    // 画面切り替え
+    document.getElementById("deposit-page").style.display = "none";
+    document.getElementById("deposit-done-page").style.display = "block";
+});
+</script>
 
 </body>
 </html>

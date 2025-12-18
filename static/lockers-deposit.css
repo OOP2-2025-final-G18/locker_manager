@@ -52,8 +52,8 @@
 
         .deposit-btn.disabled {
             background-color: #eee;
-            color: #999;          /* 文字を薄いグレーに */
-            opacity: 0.6;         /* 全体を少し薄く */
+            color: #999;
+            opacity: 0.6;
             cursor: not-allowed;
         }
     }
