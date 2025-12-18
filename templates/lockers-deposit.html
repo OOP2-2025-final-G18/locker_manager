@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>預け入れ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='lockers-deposit.css') }}">
+</head>
+
+<body>
+
+    <!-- ======== 1つ目の画面 ======== -->
+    {% if screen == 'input' %}
+    <div class="container screen1">
+
+        <div class="path">/lockers/deposit</div>
+
+        <div class="back">&larr; 預け入れ</div>
+
+        <div class="locker-grid">
+
+            <table class="locker-table">
+                <tr>
+                    <td>1</td>
+                    <td data-target>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td class="long">11</td>
+                    <td class="long">12</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td data-target>9</td>
+                    <td>10</td>
+
+                </tr>
+            </table>
+
+            <form method="POST" class="form-area">
+                <label>暗証番号</label>
+                <input type="password" name="pin">
+                <button type="submit">預け入れ開始</button>
+            </form>
+
+            <div class="note note-blue">暗証番号を決め、入力してください。</div>
+
+        </div>
+        {% endif %}
+
+
+
+        <!-- ======== 2つ目の画面 ======== -->
+        {% if screen == 'processing' %}
+        <div class="lockers-deposit screen2">
+
+            <div class="path">/lockers/deposit</div>
+
+            <div class="back">&larr; 預け入れ</div>
+
+            <table class="locker-table">
+                <tr>
+                    <td>1</td>
+                    <td data-target>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td class="long">11</td>
+                    <td class="long">12</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td data-target>9</td>
+                    <td>10</td>
+
+                </tr>
+            </table>
+
+            <form method="post" class="form-area form-gray">
+                <label>暗証番号</label>
+                <input type="password" name="pin" />
+                <button type="submit">預け入れ中...</button>
+            </form>
+
+            <div class="note note-yellow">暗証番号を決め、入力してください。</div>
+
+        </div>
+        {% endif %}
+
+</body>
+
+</html>
