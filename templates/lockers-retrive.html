@@ -3,66 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>ロッカー - 取り出し</title>
-    <link rel="stylesheet" href="/static/lockers-retrive.css"> 
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <header><h1>← 取り出し</h1></header>
+    <header>
+        <h1>← 取り出し</h1>
+        <div id="stats">現在の空き：<span id="vacant-count">0</span> / 12</div>
+    </header>
 
-    <main id="app-container" class="app-container">
-        <div class="locker-grid lockers-retrive">
-            <div class="locker-unit" data-target data-id="1" onclick="selectLocker(1)">1</div>
-            <div class="locker-unit" data-id="2">2</div>
-            <div class="locker-unit" data-target data-id="3" onclick="selectLocker(3)">3</div>
-            <div class="locker-unit" data-target data-id="4" onclick="selectLocker(4)">4</div>
-            <div class="locker-unit" data-target data-id="5" onclick="selectLocker(5)">5</div>
-            <div class="locker-unit" data-target data-id="6" onclick="selectLocker(6)">6</div>
-            <div class="locker-unit" data-target data-id="7" onclick="selectLocker(7)">7</div>
-            <div class="locker-unit" data-target data-id="8" onclick="selectLocker(8)">8</div>
-            <div class="locker-unit" data-id="9">9</div>
-            <div class="locker-unit" data-target data-id="10" onclick="selectLocker(10)">10</div>
-            <div class="locker-unit" data-target data-id="11" onclick="selectLocker(11)">11</div>
-            <div class="locker-unit" data-target data-id="12" onclick="selectLocker(12)">12</div>
+    {# classの条件分岐は {{ }} の中で完結させると安全です #}
+    <main class="app-container {{ 'is-done' if is_done else '' }}">
+        <div class="locker-grid">
+            {% for id, detail in info.items() %}
+                {# 状態判定 #}
+                {% set status = get_status(id) %}
+                
+                <div class="locker-unit id-{{ id }} {{ status }} {{ 'processing' if target_id == id else '' }}"
+                     style="grid-column: {{ detail.col }}; grid-row: {{ detail.row }};"
+                     {% if status == 'occupied' %} onclick="selectLocker({{ id }})" {% endif %}>
+                    {{ id }}
+                </div>
+            {% endfor %}
         </div>
-        
-        <section id="input-section">
-            <div id="retrieve-form">
-                <label for="passcode">暗証番号</label>
-                <input type="password" id="passcode" placeholder="4桁入力" maxlength="4">
-                <button type="button" onclick="handleRetrieve()">取り出し開始</button> 
-            </div>
-        </section>
-        
-        <section id="done-section">
-            <div id="retrieve-done-status">
-                <label for="passcode_done">暗証番号</label>
-                <input type="password" id="passcode_done" readonly>
-                <p id="status-message-retrieve">取り出し中･･･</p> 
-            </div>
+
+        <section id="form-area">
+            {% if not is_done %}
+                <form action="/lockers/retrieve" method="POST" id="retrieve-form">
+                    <input type="hidden" name="locker_id" id="selected_id">
+                    <label>暗証番号</label>
+                    <input type="password" name="passcode" pattern="\d{4}" maxlength="4" required>
+                    <button type="submit">取り出し開始</button>
+                </form>
+            {% else %}
+                <div id="done-message">
+                    <label>暗証番号</label>
+                    <input type="password" value="{{ passed_code }}" readonly>
+                    <p style="color:orange;">取り出し処理中･･･</p>
+                    <button onclick="location.href='/'">トップへ</button>
+                </div>
+            {% endif %}
         </section>
     </main>
 
     <script>
-        let selectedId = null;
         function selectLocker(id) {
-            // data-targetがあるロッカー（青色）のみ選択可能にする
-            const el = document.querySelector(`[data-id="${id}"]`);
-            if (!el.hasAttribute('data-target')) return; 
-
-            document.querySelectorAll('.locker-unit').forEach(item => item.style.borderWidth = "2px");
-            el.style.borderWidth = "5px";
-            selectedId = id;
+            document.querySelectorAll('.locker-unit').forEach(el => el.classList.remove('selected'));
+            document.querySelector('.id-' + id).classList.add('selected');
+            document.getElementById('selected_id').value = id;
         }
-
-        function handleRetrieve() {
-            const code = document.getElementById('passcode').value;
-            if(/^\d{4}$/.test(code) && selectedId !== null) {
-                document.getElementById('app-container').classList.add('is-done');
-                document.getElementById('passcode_done').value = code;
-                document.querySelector(`[data-id="${selectedId}"]`).classList.add('processing');
-            } else {
-                alert("ロッカーを選択し、4桁の暗証番号を入力してください");
-            }
-        }
+        window.onload = function() {
+            document.getElementById('vacant-count').innerText = document.querySelectorAll('.vacant').length;
+        };
     </script>
 </body>
 </html>
