@@ -1,177 +1,76 @@
-/* ====== 1つ目の画面（.container） ====== */
-
-body {
-    font-family: sans-serif;
-    background: #fff;
-}
-
-.container {
-    width: 750px;
-    margin: 30px auto;
-    border: 3px solid #333;
-    padding: 20px;
-}
-
-.path {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 25px;
-}
-
-.back {
-    font-size: 26px;
-    margin-bottom: 20px;
-}
-
-.locker-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 90px) 90px 90px;
-    grid-template-rows: repeat(2, 90px);
-    gap: 5px;
-    margin: 20px auto;
-    width: 650px;
-}
-
-.locker {
-    border: 2px solid #444;
-    background: #ddd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 26px;
-    font-weight: bold;
-}
-
-.locker.occupied {
-    background: #8af47d;
-}
-
-.form-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.form-area label {
-    font-size: 20px;
-}
-
-.form-area input {
-    width: 280px;
-    height: 35px;
-    font-size: 20px;
-}
-
-.form-area button {
-    font-size: 20px;
-    padding: 8px 20px;
-    cursor: pointer;
-}
-
-.container .note {
-    background: #b9d7ff;   /* ← 青い帯 */
-    padding: 10px;
-    text-align: center;
-    margin-top: 25px;
-}
-
-
-/* ====== 2つ目の画面（.lockers-deposit） ====== */
-
 .lockers-deposit {
+    font-family: sans-serif;
     width: 750px;
     margin: 30px auto;
-    padding: 20px;
     border: 3px solid #333;
-    font-family: sans-serif;
-}
-
-/* ネストは CSS では無効なので、通常の記述に変換して保持 */
-
-.lockers-deposit .path {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.lockers-deposit .back {
-    font-size: 26px;
-    margin-bottom: 25px;
-}
-
-/* ロッカー表 */
-.lockers-deposit .locker-table {
-    margin: 0 auto 20px auto;
-    border-collapse: collapse;
-}
-
-.lockers-deposit .locker-table td {
-    width: 90px;
-    height: 90px;
-    border: 2px solid #444;
-    background: #dcdcdc;
-    font-size: 26px;
-    font-weight: bold;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.lockers-deposit .locker-table td.long {
-    height: 180px;
-}
-
-.lockers-deposit .locker-table td[data-target] {
-    background: #7ff97a; /* 緑色 */
-}
-
-/* 入力エリア */
-.lockers-deposit .form-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.lockers-deposit .form-area label {
-    font-size: 20px;
-}
-
-.lockers-deposit .form-area input {
-    width: 280px;
-    height: 35px;
-    font-size: 20px;
-}
-
-.lockers-deposit .form-area button {
-    font-size: 20px;
-    padding: 8px 20px;
-    cursor: pointer;
-}
-
-/* 黄色い帯 */
-.lockers-deposit .note {
-    margin-top: 25px;
-    background: #fff18a;  /* ← 黄色帯 */
-    padding: 10px;
-    text-align: center;
-}
-
-/* 1つ目の画面 → 青帯 */
-.note-blue {
-    background: #b9d7ff;
-}
-
-/* 2つ目の画面 → 黄色帯 */
-.note-yellow {
-    background: #fff18a;
-}
-
-/* 2つ目の画面の PIN エリアを灰色ボックス化 */
-.form-gray {
-    background: #e0e0e0;
     padding: 20px;
-    border-radius: 8px;
+
+    .header {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .lockers {
+        border-collapse: collapse;
+        margin: 0 auto 25px;
+
+        td {
+            width: 70px;
+            height: 60px;
+            border: 2px solid #555;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #ddd;
+        }
+
+        td[data-target] {
+            background-color: #7dff7d;
+        }
+    }
+
+    .pin-area {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        justify-content: center;
+        margin-bottom: 10px;
+
+        input {
+            font-size: 16px;
+            padding: 5px;
+            width: 120px;
+            text-align: center;
+        }
+
+        .deposit-btn {
+            font-size: 16px;
+            padding: 6px 15px;
+            cursor: pointer;
+        }
+
+        .deposit-btn.disabled {
+            background-color: #eee;
+            color: #999;          /* 文字を薄いグレーに */
+            opacity: 0.6;         /* 全体を少し薄く */
+            cursor: not-allowed;
+        }
+    }
+
+    .message {
+        margin-top: 10px;
+        padding: 8px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .message.info {
+        background-color: #cce0ff;
+    }
+
+    .message.success {
+        background-color: #fff35c;
+        font-weight: bold;
+    }
 }

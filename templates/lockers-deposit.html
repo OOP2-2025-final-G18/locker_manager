@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>預け入れ</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='lockers-deposit.css') }}">
+    <link rel="stylesheet" href="/static/lockers-deposit.css">
 </head>
 <body>
 
-<!-- ======== 1つ目の画面 ======== -->
-<div class="container screen1">
+<!-- ======================
+     /lockers/deposit
+====================== -->
+<div class="lockers-deposit">
+    <div class="header">
+        ← 預け入れ
+    </div>
 
-    <div class="path">/lockers/deposit</div>
-
-    <div class="back">&larr; 預け入れ</div>
-
-    <div class="locker-grid">
-
-       <table class="locker-table">
+    <table class="lockers">
         <tr>
             <td>1</td>
             <td data-target>2</td>
             <td>3</td>
             <td>4</td>
             <td>5</td>
-            <td class="long">11</td>
-            <td class="long">12</td>
+            <td rowspan="2">11</td>
+            <td rowspan="2">12</td>
         </tr>
         <tr>
             <td>6</td>
@@ -32,38 +31,48 @@
             <td>8</td>
             <td data-target>9</td>
             <td>10</td>
-            
         </tr>
     </table>
 
-    <form method="POST" class="form-area">
-        <label>暗証番号</label>
-        <input type="password" name="pin">
-        <button type="submit">預け入れ開始</button>
-    </form>
+    <div class="pin-area">
+        <label>
+            暗証番号
+            <input
+                type="text"
+                inputmode="numeric"
+                pattern="\d{4}"
+                maxlength="4"
+                placeholder="4桁の数字"
+            >
+        </label>
 
-    <div class="note note-blue">暗証番号を決め、入力してください。</div>
+        <button class="deposit-btn">
+            預け入れ開始
+        </button>
+    </div>
 
+    <div class="message info">
+        暗証番号を入力してください。
+    </div>
 </div>
 
+<!-- ======================
+     /lockers/deposit/done
+====================== -->
+<div class="lockers-deposit done">
+    <div class="header">
+        ← 預け入れ
+    </div>
 
-
-<!-- ======== 2つ目の画面 ======== -->
-<div class="lockers-deposit screen2">
-
-    <div class="path">/lockers/deposit</div>
-
-    <div class="back">&larr; 預け入れ</div>
-
-    <table class="locker-table">
+    <table class="lockers">
         <tr>
             <td>1</td>
             <td data-target>2</td>
             <td>3</td>
             <td>4</td>
             <td>5</td>
-            <td class="long">11</td>
-            <td class="long">12</td>
+            <td rowspan="2">11</td>
+            <td rowspan="2">12</td>
         </tr>
         <tr>
             <td>6</td>
@@ -71,18 +80,29 @@
             <td>8</td>
             <td data-target>9</td>
             <td>10</td>
-            
         </tr>
     </table>
 
-    <form method="post" class="form-area form-gray">
-        <label>暗証番号</label>
-        <input type="password" name="pin"/>
-        <button type="submit">預け入れ中...</button>
-    </form>
+    <div class="pin-area">
+        <label>
+            暗証番号
+            <input
+                type="text"
+                inputmode="numeric"
+                pattern="\d{4}"
+                maxlength="4"
+                placeholder="4桁の数字"
+            >
+        </label>
 
-    <div class="note note-yellow">暗証番号を決め、入力してください。</div>
+        <button class="deposit-btn disabled">
+            預け入れ中…
+        </button>
+    </div>
 
+    <div class="message success">
+        預けました。扉が閉まるまでお待ちください。
+    </div>
 </div>
 
 </body>
