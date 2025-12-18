@@ -2,15 +2,56 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>注文管理システム</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+    <title>ロッカー管理ダッシュボード</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>注文管理システム</h1>
-    <ul>
-      <li><a href="{{ url_for('user.list') }}">ユーザー（顧客）</a></li>
-      <li><a href="{{ url_for('product.list') }}">製品</a></li>
-      <li><a href="{{ url_for('order.list') }}">注文</a></li>
-    </ul>
+
+<h1>ロッカー管理</h1>
+
+<!-- ===== ダッシュボード ===== -->
+<h2>現在の使用状況</h2>
+
+<div class="locker-grid">
+    {% for id, det in info.items() %}
+        {% set status = get_status(id) %}
+        <div class="locker-unit {{ status }}"
+             style="grid-column: {{ det.col }}; grid-row: {{ det.row }};
+                    cursor: default;">
+            {{ id }}
+        </div>
+    {% endfor %}
+</div>
+
+<!-- ===== 操作メニュー ===== -->
+<hr>
+
+<div style="margin-top:20px;">
+    <a href="/lockers/deposit">
+        <button style="padding:12px 24px; font-size:16px;">
+            預け入れ
+        </button>
+    </a>
+
+    <a href="/lockers/retrieve">
+        <button style="padding:12px 24px; font-size:16px; margin-left:10px;">
+            取り出し
+        </button>
+    </a>
+</div>
+
+<!-- ===== 凡例 ===== -->
+<div style="margin-top:20px;">
+    <p><strong>例</strong></p>
+    <div style="display:flex; gap:20px;">
+        <div>
+            <span class="locker-unit vacant" style="padding:5px 10px;">空き</span>
+        </div>
+        <div>
+            <span class="locker-unit occupied" style="padding:5px 10px;">使用中</span>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

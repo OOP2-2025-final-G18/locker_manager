@@ -27,7 +27,12 @@ def get_status(locker_id):
  
 @app.route('/')
 def index():
-    return '<h1>ロッカー管理</h1><ul><li><a href="/lockers/deposit">預け入れ</a></li><li><a href="/lockers/retrieve">取り出し</a></li></ul>'
+    return render_template(
+        'index.html',
+        info=lockers_info,
+        ops=operations,
+        get_status=get_status
+    )
  
 # --- 預け入れルーティング ---
 @app.route('/lockers/deposit', methods=['GET', 'POST'])
