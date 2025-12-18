@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
 # =========================
-# トップ（なくてもいいが動作確認用）
+# トップ
 # =========================
 @app.route('/')
 def index():
@@ -25,38 +25,25 @@ def lockers_deposit():
         pin = request.form.get('pin')
         print('【預け入れ】暗証番号:', pin)
 
-        # POST時は screen2 を表示
+        # 2画面目を表示
         return render_template(
             'lockers-deposit.html',
-            screen='processing'
+            show_screen='screen2'
         )
 
-    # GET時は screen1 を表示
+    # 1画面目を表示
     return render_template(
         'lockers-deposit.html',
-        screen='input'
+        show_screen='screen1'
     )
 
 
 # =========================
 # ロッカー：取り出し
 # =========================
-@app.route('/lockers/retrieve', methods=['GET'])
+@app.route('/lockers/retrieve')
 def lockers_retrieve():
     return render_template('lockers-retrive.html')
-
-
-@app.route('/lockers/retrieve/done', methods=['POST'])
-def lockers_retrieve_done():
-    passcode = request.form.get('passcode')
-
-    # 動作確認用
-    print('【取り出し】暗証番号:', passcode)
-
-    return '''
-    <h2>取り出し完了</h2>
-    <a href="/">トップへ戻る</a>
-    '''
 
 
 if __name__ == '__main__':
