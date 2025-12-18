@@ -1,43 +1,68 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ロッカー - 取り出し</title>
-    <link rel="stylesheet" href="/static/lockers-retrive.css">
+    <link rel="stylesheet" href="/static/lockers-retrive.css"> 
 </head>
-
 <body>
-    <header>
-        <h1>← 取り出し</h1>
-    </header>
+    <header><h1>← 取り出し</h1></header>
 
-    <main>
+    <main id="app-container" class="app-container">
         <div class="locker-grid lockers-retrive">
-            <div class="locker-unit retrievable" data-target data-id="1">1</div>
+            <div class="locker-unit" data-target data-id="1" onclick="selectLocker(1)">1</div>
             <div class="locker-unit" data-id="2">2</div>
-            <div class="locker-unit retrievable" data-target data-id="3">3</div>
-            <div class="locker-unit retrievable" data-target data-id="4">4</div>
-            <div class="locker-unit retrievable" data-target data-id="5">5</div>
-
-            <div class="locker-unit retrievable" data-target data-id="6">6</div>
-            <div class="locker-unit retrievable" data-target data-id="7">7</div>
-            <div class="locker-unit retrievable" data-target data-id="8">8</div>
+            <div class="locker-unit" data-target data-id="3" onclick="selectLocker(3)">3</div>
+            <div class="locker-unit" data-target data-id="4" onclick="selectLocker(4)">4</div>
+            <div class="locker-unit" data-target data-id="5" onclick="selectLocker(5)">5</div>
+            <div class="locker-unit" data-target data-id="6" onclick="selectLocker(6)">6</div>
+            <div class="locker-unit" data-target data-id="7" onclick="selectLocker(7)">7</div>
+            <div class="locker-unit" data-target data-id="8" onclick="selectLocker(8)">8</div>
             <div class="locker-unit" data-id="9">9</div>
-            <div class="locker-unit retrievable" data-target data-id="10">10</div>
-
-            <div class="locker-unit right-col retrievable" data-target data-id="11">11</div>
-            <div class="locker-unit right-col retrievable" data-target data-id="12">12</div>
+            <div class="locker-unit" data-target data-id="10" onclick="selectLocker(10)">10</div>
+            <div class="locker-unit" data-target data-id="11" onclick="selectLocker(11)">11</div>
+            <div class="locker-unit" data-target data-id="12" onclick="selectLocker(12)">12</div>
         </div>
-
-        <form id="retrieve-form" action="/lockers/retrieve/done" method="POST">
-            <label for="passcode">暗証番号</label>
-            <input type="password" id="passcode" name="passcode" required pattern="\d{4}" maxlength="4"
-                placeholder="暗証番号を入力 (4桁)" title="暗証番号は数字4桁で入力してください"> <button type="submit"
-                id="retrieve-start">取り出し開始</button>
-        </form>
+        
+        <section id="input-section">
+            <div id="retrieve-form">
+                <label for="passcode">暗証番号</label>
+                <input type="password" id="passcode" placeholder="4桁入力" maxlength="4">
+                <button type="button" onclick="handleRetrieve()">取り出し開始</button> 
+            </div>
+        </section>
+        
+        <section id="done-section">
+            <div id="retrieve-done-status">
+                <label for="passcode_done">暗証番号</label>
+                <input type="password" id="passcode_done" readonly>
+                <p id="status-message-retrieve">取り出し中･･･</p> 
+            </div>
+        </section>
     </main>
-</body>
 
+    <script>
+        let selectedId = null;
+        function selectLocker(id) {
+            // data-targetがあるロッカー（青色）のみ選択可能にする
+            const el = document.querySelector(`[data-id="${id}"]`);
+            if (!el.hasAttribute('data-target')) return; 
+
+            document.querySelectorAll('.locker-unit').forEach(item => item.style.borderWidth = "2px");
+            el.style.borderWidth = "5px";
+            selectedId = id;
+        }
+
+        function handleRetrieve() {
+            const code = document.getElementById('passcode').value;
+            if(/^\d{4}$/.test(code) && selectedId !== null) {
+                document.getElementById('app-container').classList.add('is-done');
+                document.getElementById('passcode_done').value = code;
+                document.querySelector(`[data-id="${selectedId}"]`).classList.add('processing');
+            } else {
+                alert("ロッカーを選択し、4桁の暗証番号を入力してください");
+            }
+        }
+    </script>
+</body>
 </html>
