@@ -56,7 +56,6 @@ def lockers_retrieve():
         target_id = int(request.form.get('locker_id'))
         passed_code = request.form.get('passcode')
         # 取り出し完了処理
-        
         if target_id in operations:
             operations[target_id]["retrieve_at"] = datetime.datetime.now()
         print(f"【LOG】取出実行: {target_id}番, 入力PIN: {passed_code}")
